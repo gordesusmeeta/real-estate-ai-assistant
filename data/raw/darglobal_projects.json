@@ -1,0 +1,212 @@
+[
+    {
+        "source": "DarGlobal",
+        "record_type": "project_reference",
+        "project_name": "One Of One Unlisted By Pagani",
+        "category": "One of One",
+        "location": null,
+        "url": "https://darglobal.co.uk/one-of-one/one-of-one-unlisted-by-pagani",
+        "content_source": "Official DarGlobal sitemap",
+        "details_verified": false
+    },
+    {
+        "source": "DarGlobal",
+        "record_type": "project_reference",
+        "project_name": "Project Pagani",
+        "category": "One of One",
+        "location": null,
+        "url": "https://darglobal.co.uk/one-of-one/project-pagani",
+        "content_source": "Official DarGlobal sitemap",
+        "details_verified": false
+    },
+    {
+        "source": "DarGlobal",
+        "record_type": "project_reference",
+        "project_name": "The Albert Hall Mansion",
+        "category": "One of One",
+        "location": null,
+        "url": "https://darglobal.co.uk/one-of-one/THE-ALBERT-HALL-MANSION",
+        "content_source": "Official DarGlobal sitemap",
+        "details_verified": false
+    },
+    {
+        "source": "DarGlobal",
+        "record_type": "project_reference",
+        "project_name": "Painite Villas Design Inspired By Automobili Lamborghini",
+        "category": "One of One",
+        "location": null,
+        "url": "https://darglobal.co.uk/one-of-one/painite-villas-design-inspired-by-Automobili-Lamborghini",
+        "content_source": "Official DarGlobal sitemap",
+        "details_verified": false
+    },
+    {
+        "source": "DarGlobal",
+        "record_type": "project_reference",
+        "project_name": "Top Of The Astera",
+        "category": "One of One",
+        "location": null,
+        "url": "https://darglobal.co.uk/one-of-one/top-of-the-astera",
+        "content_source": "Official DarGlobal sitemap",
+        "details_verified": false
+    },
+    {
+        "source": "DarGlobal",
+        "record_type": "project_reference",
+        "project_name": "Trump Penthouse",
+        "category": "One of One",
+        "location": null,
+        "url": "https://darglobal.co.uk/one-of-one/trump-penthouse",
+        "content_source": "Official DarGlobal sitemap",
+        "details_verified": false
+    },
+    {
+        "source": "DarGlobal",
+        "record_type": "project_reference",
+        "project_name": "Fendi Casa Azure Oceanfront Villas",
+        "category": "One of One",
+        "location": null,
+        "url": "https://darglobal.co.uk/one-of-one/fendi-casa-azure-oceanfront-villas",
+        "content_source": "Official DarGlobal sitemap",
+        "details_verified": false
+    },
+    {
+        "source": "DarGlobal",
+        "record_type": "project_category",
+        "project_name": "Villas",
+        "category": "Villas",
+        "location": "Uae",
+        "url": "https://darglobal.co.uk/projects/properties-in-uae/villas",
+        "content_source": "Official DarGlobal sitemap",
+        "details_verified": false
+    },
+    {
+        "source": "DarGlobal",
+        "record_type": "project_category",
+        "project_name": "Apartments",
+        "category": "Apartments",
+        "location": "Uk",
+        "url": "https://darglobal.co.uk/projects/properties-in-uk/apartments",
+        "content_source": "Official DarGlobal sitemap",
+        "details_verified": false
+    },
+    {
+        "source": "DarGlobal",
+        "record_type": "project_category",
+        "project_name": "Villas",
+        "category": "Villas",
+        "location": "Spain",
+        "url": "https://darglobal.co.uk/projects/properties-in-spain/villas",
+        "content_source": "Official DarGlobal sitemap",
+        "details_verified": false
+    },
+    {
+        "source": "DarGlobal",
+        "record_type": "project_category",
+        "project_name": "Apartments",
+        "category": "Apartments",
+        "location": "Oman",
+        "url": "https://darglobal.co.uk/projects/properties-in-oman/apartments",
+        "content_source": "Official DarGlobal sitemap",
+        "details_verified": false
+    },
+    {
+        "source": "DarGlobal",
+        "record_type": "project_category",
+        "project_name": "Villas",
+        "category": "Villas",
+        "location": "Qatar",
+        "url": "https://darglobal.co.uk/projects/properties-in-qatar/villas",
+        "content_source": "Official DarGlobal sitemap",
+        "details_verified": false
+    },
+    {
+        "source": "DarGlobal",
+        "record_type": "project_category",
+        "project_name": "Properties In Uae",
+        "category": null,
+        "location": "Uae",
+        "url": "https://darglobal.co.uk/projects/properties-in-uae",
+        "content_source": "Official DarGlobal sitemap",
+        "details_verified": false
+    },
+    {
+        "source": "DarGlobal",
+        "record_type": "project_category",
+        "project_name": "Properties In Uk",
+        "category": null,
+        "location": "Uk",
+        "url": "https://darglobal.co.uk/projects/properties-in-uk",
+        "content_source": "Official DarGlobal sitemap",
+        "details_verified": false
+    },
+    {
+        "source": "DarGlobal",
+        "record_type": "project_category",
+        "project_name": "Properties In Saudi Arabia",
+        "category": null,
+        "location": "Saudi Arabia",
+        "url": "https://darglobal.co.uk/projects/properties-in-saudi-arabia",
+        "content_source": "Official DarGlobal sitemap",
+        "details_verified": false
+    },
+    {
+        "source": "DarGlobal",
+        "record_type": "project_category",
+        "project_name": "Properties In Oman",
+        "category": null,
+        "location": "Oman",
+        "url": "https://darglobal.co.uk/projects/properties-in-oman",
+        "content_source": "Official DarGlobal sitemap",
+        "details_verified": false
+    },
+    {
+        "source": "DarGlobal",
+        "record_type": "project_category",
+        "project_name": "Properties In Qatar",
+        "category": null,
+        "location": "Qatar",
+        "url": "https://darglobal.co.uk/projects/properties-in-qatar",
+        "content_source": "Official DarGlobal sitemap",
+        "details_verified": false
+    },
+    {
+        "source": "DarGlobal",
+        "record_type": "project_category",
+        "project_name": "Properties In Spain",
+        "category": null,
+        "location": "Spain",
+        "url": "https://darglobal.co.uk/projects/properties-in-spain",
+        "content_source": "Official DarGlobal sitemap",
+        "details_verified": false
+    },
+    {
+        "source": "DarGlobal",
+        "record_type": "project_category",
+        "project_name": "Villas",
+        "category": "Villas",
+        "location": "Saudi Arabia",
+        "url": "https://darglobal.co.uk/projects/properties-in-saudi-arabia/villas",
+        "content_source": "Official DarGlobal sitemap",
+        "details_verified": false
+    },
+    {
+        "source": "DarGlobal",
+        "record_type": "project_category",
+        "project_name": "Apartments",
+        "category": "Apartments",
+        "location": "Saudi Arabia",
+        "url": "https://darglobal.co.uk/projects/properties-in-saudi-arabia/apartments",
+        "content_source": "Official DarGlobal sitemap",
+        "details_verified": false
+    },
+    {
+        "source": "DarGlobal",
+        "record_type": "project_category",
+        "project_name": "Hotel Rooms",
+        "category": null,
+        "location": "Oman",
+        "url": "https://darglobal.co.uk/projects/properties-in-oman/hotel-rooms",
+        "content_source": "Official DarGlobal sitemap",
+        "details_verified": false
+    }
+]
