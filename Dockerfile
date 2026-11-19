@@ -12,9 +12,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-# Build ChromaDB inside the cloud image
 RUN python chatbot/build_vector_db.py
 
-EXPOSE 8501
+EXPOSE 10000
 
-CMD ["streamlit", "run", "chatbot/app.py", "--server.address=0.0.0.0", "--server.port=8501"]
+CMD ["sh", "-c", "streamlit run chatbot/app.py --server.address=0.0.0.0 --server.port=${PORT:-10000} --server.headless=true"]
