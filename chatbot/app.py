@@ -1,17 +1,16 @@
 
 import os
+import json
 from pathlib import Path
 
 import streamlit as st
 from dotenv import load_dotenv
-from langchain_chroma import Chroma
-from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_openai import ChatOpenAI
 
 
 # Project paths
 ROOT_DIR = Path(__file__).resolve().parent.parent
-DB_DIRECTORY = ROOT_DIR / "embeddings" / "chroma_db"
+DATA_FILE = ROOT_DIR / "data" / "processed" / "real_estate_data.json"
 
 # Load API key
 load_dotenv(ROOT_DIR / ".env")
@@ -28,29 +27,27 @@ st.set_page_config(
 st.title("🏡 Real Estate AI Assistant")
 st.caption("Ask questions about available property listings.")
 
+
+# Validate configuration
 if not API_KEY:
-    st.error("OpenRouter API key not found. Please check your .env file.")
+    st.error("OpenRouter API key not found. Check your environment variable.")
     st.stop()
 
-if not DB_DIRECTORY.exists():
-    st.error("Vector database not found. Please build ChromaDB first.")
+if not DATA_FILE.exists():
+    st.error("Property data file not found.")
     st.stop()
 
 
-# Load embedding model and vector database
-@st.cache_resource
-def load_vector_database():
-    embeddings = HuggingFaceEmbeddings(
-        model_name="sentence-transformers/all-MiniLM-L6-v2"
-    )
+# Load verified property records
+@st.cache_data
+def load_property_data():
+    with open(DATA_FILE, "r", encoding="utf-8") as file:
+        records = json.load(file)
 
-    database = Chroma(
-        collection_name="real_estate_properties",
-        persist_directory=str(DB_DIRECTORY),
-        embedding_function=embeddings
-    )
-
-    return database
+    return [
+        record for record in records
+        if record.get("verified_details") is True
+    ]
 
 
 # Connect to OpenRouter
@@ -65,59 +62,67 @@ def load_llm():
 
 
 try:
-    vector_db = load_vector_database()
+    properties = load_property_data()
     llm = load_llm()
 except Exception as error:
     st.error(f"Initialization failed: {error}")
     st.stop()
 
 
-# Retrieve relevant properties
-def get_property_context(question):
-    documents = vector_db.similarity_search(question, k=3)
-
-    if not documents:
-        return "", []
-
+# Prepare property context
+def get_property_context():
     context_parts = []
     sources = []
 
-    for document in documents:
-        context_parts.append(document.page_content)
+    for index, property_data in enumerate(properties, start=1):
+        context_parts.append(
+            f"""
+PROPERTY {index}
 
-        url = document.metadata.get("url")
-        title = document.metadata.get("title", "Property listing")
+Title: {property_data.get('title')}
+Property Type: {property_data.get('property_type')}
+Transaction Type: {property_data.get('transaction_type')}
+Location: {property_data.get('location')}
+Bedrooms: {property_data.get('bedrooms')}
+Area: {property_data.get('area_sqm')} SQM
+Price: {property_data.get('price')} {property_data.get('currency')}
+Description: {property_data.get('description')}
+"""
+        )
+
+        url = property_data.get("url")
+        title = property_data.get("title", "Property listing")
 
         if url:
             sources.append((title, url))
 
-    return "\n\n".join(context_parts), sources
+    return "\n".join(context_parts), sources
 
 
 # Generate grounded response
 def generate_answer(question):
-    context, sources = get_property_context(question)
+    if not properties:
+        return "No verified property records are currently available.", []
 
-    if not context:
-        return (
-            "I couldn't find any verified property information "
-            "in the current database. Please try another question."
-        ), []
+    context, sources = get_property_context()
 
     prompt = f"""
 You are a helpful real estate assistant.
 
-Answer the user's question using ONLY the property information
-provided in the context below.
+Answer the user's question using ONLY the verified property
+information provided below.
 
 Rules:
-1. Do not invent prices, locations, amenities, or property details.
+1. Never invent prices, locations, amenities, or property details.
 2. If information is missing, clearly say it is not available.
-3. Mention the currency and measurement units exactly as provided.
-4. Compare properties only when the context supports the comparison.
-5. Keep answers clear and concise.
+3. Preserve the original currency and measurement units.
+4. Compare properties only using the supplied information.
+5. For cheapest or most expensive questions, compare the
+   available prices when their currencies are the same.
+6. Do not treat missing information as a confirmed fact.
+7. Keep answers clear and concise.
 
-PROPERTY CONTEXT:
+VERIFIED PROPERTY DATA:
 {context}
 
 USER QUESTION:
@@ -182,10 +187,13 @@ if question:
 # Sidebar
 with st.sidebar:
     st.subheader("About this assistant")
-    st.write("AI-powered property search using retrieval-augmented generation.")
+    st.write(
+        "AI-powered property assistant using verified property "
+        "data and OpenRouter."
+    )
 
     st.write("**Current database:**")
-    st.write(f"{vector_db._collection.count()} verified property records")
+    st.write(f"{len(properties)} verified property records")
 
     if st.button("Clear chat"):
         st.session_state.messages = []
