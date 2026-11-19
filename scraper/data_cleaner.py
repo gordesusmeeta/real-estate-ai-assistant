@@ -2,24 +2,26 @@
 import json
 from pathlib import Path
 
-WASALT_FILE = Path("data/raw/wasalt_properties.json")
-DARGLOBAL_FILE = Path("data/raw/darglobal_projects.json")
-OUTPUT_FILE = Path("data/processed/real_estate_data.json")
+ROOT_DIR = Path(__file__).resolve().parent.parent
+
+WASALT_FILE = ROOT_DIR / "data" / "raw" / "wasalt_properties.json"
+DARGLOBAL_FILE = ROOT_DIR / "data" / "raw" / "darglobal_projects.json"
+OUTPUT_FILE = ROOT_DIR / "data" / "processed" / "real_estate_data.json"
 
 
-def load_json(path):
-    if not path.exists():
-        print(f"File not found: {path}")
+def load_json(file_path):
+    if not file_path.exists():
+        print(f"File not found: {file_path}")
         return []
 
-    with open(path, "r", encoding="utf-8") as file:
+    with open(file_path, "r", encoding="utf-8") as file:
         return json.load(file)
 
 
-def clean_wasalt(properties):
+def clean_wasalt(records):
     cleaned = []
 
-    for item in properties:
+    for item in records:
         cleaned.append({
             "source": "Wasalt",
             "record_type": "property_listing",
@@ -30,7 +32,7 @@ def clean_wasalt(properties):
             "bedrooms": item.get("bedrooms"),
             "area_sqm": item.get("area_sqm"),
             "price": item.get("price"),
-            "currency": item.get("currency", "SAR"),
+            "currency": item.get("currency"),
             "description": item.get("description"),
             "url": item.get("url"),
             "verified_details": True
@@ -39,22 +41,25 @@ def clean_wasalt(properties):
     return cleaned
 
 
-def clean_darglobal(projects):
+def clean_darglobal(records):
     cleaned = []
 
-    for item in projects:
+    for item in records:
         cleaned.append({
             "source": "DarGlobal",
-            "record_type": "project_reference",
+            "record_type": item.get("record_type"),
             "title": item.get("project_name"),
-            "property_type": None,
+            "property_type": item.get("category"),
             "transaction_type": None,
-            "location": None,
+            "location": item.get("location"),
             "bedrooms": None,
             "area_sqm": None,
             "price": None,
             "currency": None,
-            "description": None,
+            "description": (
+                "Official DarGlobal project or property category reference. "
+                "Detailed property information could not be extracted."
+            ),
             "url": item.get("url"),
             "verified_details": False
         })
@@ -63,21 +68,36 @@ def clean_darglobal(projects):
 
 
 def main():
-    wasalt = load_json(WASALT_FILE)
-    darglobal = load_json(DARGLOBAL_FILE)
+    print("Loading raw datasets...")
 
-    combined = clean_wasalt(wasalt) + clean_darglobal(darglobal)
+    wasalt_records = load_json(WASALT_FILE)
+    darglobal_records = load_json(DARGLOBAL_FILE)
+
+    wasalt_cleaned = clean_wasalt(wasalt_records)
+    darglobal_cleaned = clean_darglobal(darglobal_records)
+
+    all_records = wasalt_cleaned + darglobal_cleaned
 
     OUTPUT_FILE.parent.mkdir(parents=True, exist_ok=True)
 
     with open(OUTPUT_FILE, "w", encoding="utf-8") as file:
-        json.dump(combined, file, indent=4, ensure_ascii=False)
+        json.dump(all_records, file, indent=4, ensure_ascii=False)
 
-    print("Wasalt records:", len(wasalt))
-    print("DarGlobal records:", len(darglobal))
-    print("Total records:", len(combined))
-    print("Saved to:", OUTPUT_FILE)
+    print("\n========== DATA CLEANING SUMMARY ==========")
+    print("Wasalt property records:", len(wasalt_cleaned))
+    print("DarGlobal records:", len(darglobal_cleaned))
+    print("Total records:", len(all_records))
+    print(
+        "Records with verified property details:",
+        sum(1 for r in all_records if r["verified_details"])
+    )
+    print(
+        "DarGlobal references:",
+        sum(1 for r in all_records if r["source"] == "DarGlobal")
+    )
+    print("\nSaved to:", OUTPUT_FILE)
 
 
 if __name__ == "__main__":
     main()
+
